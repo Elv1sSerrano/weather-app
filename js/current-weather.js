@@ -1,6 +1,6 @@
-import { dateFormat, tempFormat } from './units/data-format.js'
+import { dateFormat, tempFormat } from './utils/data-format.js'
 import { weatherConditionCodes } from './constants.js'
-import { getLatLon } from './geolocation.js'
+import { getLatLon } from './utils/geolocation.js'
 import { getWeatherapiInformation } from './services/weather.js'
 
 function setCurrentDate($element){        

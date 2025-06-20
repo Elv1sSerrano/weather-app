@@ -7,7 +7,4 @@ const $loader = document.querySelector('#loading')
 ViewportSize($app)
 ViewportSize($loader)
 
-console.log('Elemento $app:', $app); // Verifica que sea el elemento correcto
-console.log('Elemento $loader:', $loader); // Verifica que sea el elemento correcto
-
 climaActual();
