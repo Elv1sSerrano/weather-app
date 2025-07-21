@@ -8,3 +8,12 @@ export async function getWeatherapiInformation (lat, lon) {
     const data = await response.json()
     return {isError:false, data:data}
 }
+
+export async function getWeeklyWeatherapiInformation (lat, lon) {
+    const response = await fetch (`${BASE_API}forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${TEMP_API}`)        
+    if (!response) {
+        return {isError: true, data: null}
+    }
+    const data = await response.json()
+    return {isError:false, data:data}
+}

@@ -15,8 +15,7 @@ function getPosition(config = configGeolocation){
     if(!getBrowserAvailability()) throw new Error('No hay soporte de geolocalización en el navegador')
 
     return new Promise ((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition((position) => {
-            console.log(position)            
+            navigator.geolocation.getCurrentPosition((position) => {                        
             resolve (position)
         }, () => {
             reject('No se ha podido obtener la ubicación')

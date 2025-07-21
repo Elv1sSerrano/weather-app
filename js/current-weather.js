@@ -68,8 +68,7 @@ function configWeather(weather){
 export default async function currentWeather(){     
     //geolocation
     const {lat, lon, isError} = await getLatLon()           
-    if(isError) return console.log("No se ha podido obtener tu ubicación")    
-    console.log(lat, lon)
+    if(isError) return console.log("No se ha podido obtener tu ubicación")        
     //Obtener datos de la api
     const {isError:getWeatherError, data:apiData} = await getWeatherapiInformation(lat, lon)
     if(getWeatherError) return console.log(`La aplicación ha fallado`)
