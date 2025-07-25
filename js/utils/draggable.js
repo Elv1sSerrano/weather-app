@@ -22,17 +22,13 @@ export default function draggable($container, config = defaultConfig){
 
     isOpen ? setVisible():unsetVisible()        
     
-    $marker.addEventListener('click', () => {
-        logger('Click event fired');
+    $marker.addEventListener('click', () => {        
         if(!isDragging){
-            if(!isOpen){
-                logger('ya está abierto')
+            if(!isOpen){                
                 setVisible()
-            } else {
-                logger('ya no está abierto')                
+            } else {                            
                 unsetVisible()
-            }
-            logger(`Estado de isOpen después del clic: ${isOpen}`);
+            }            
         }
     })
     $marker.addEventListener('pointerdown', handlePointerDown)
@@ -45,8 +41,7 @@ export default function draggable($container, config = defaultConfig){
     function handlePointerDown(event){
         // toma la posición incial
         isDragging = true
-        initialPositionY = event.pageY || event.touches[0].pageY
-        
+        initialPositionY = event.pageY || event.touches[0].pageY                
     }
     function handlePointerUp(event){
         stopDragAndBounce()
@@ -64,42 +59,39 @@ export default function draggable($container, config = defaultConfig){
         const areaFinal = finalPositionY - initialPositionY        
         initialPositionY = finalPositionY 
         widgetPosition = widgetPosition + areaFinal
-        setWidgetPositon(widgetPosition)        
+        logger(`Esta es la posición del widget ${widgetPosition} y este es el container height ${areaRestada}`)
+        if(widgetPosition > areaRestada) {
+            return false     
+        }
+        setWidgetPositon(widgetPosition)                   
     }
 
     function setVisible(){                   
         isOpen = true
-        setWidgetPositon(0)
-        logger(` ${isDragging} is dragging de set visible`)        
-        logger(` ${isOpen} is open de set visible`)        
-        logger(`El elemento es visible`)
+        setWidgetPositon(0)        
     }
 
     function unsetVisible(){
         isOpen = false        
-        setWidgetPositon(areaRestada)
-        logger(` ${isDragging} is dragging de unset visible`)        
-        logger(` ${isOpen} is open de set visible`)        
-        logger(`El elemento no es visible`)
+        setWidgetPositon(areaRestada)        
     }
 
     function setWidgetPositon(value){
         $container.style.marginBottom = `-${value}px`
     }    
 
-    function stopDragAndBounce(){
-        logger ('stop drag and bounce executed')
+    function stopDragAndBounce(){        
         isDragging = false
         bounce()
         if(widgetPosition > containerHeight / 2){
             unsetVisible()
         } else {
             setVisible()
-        }
+        }        
     }
 
     function bounce(){
-        $container.style.transition = 'margin-bottom .3s'
+        $container.style.transition = 'margin-bottom .3s'        
     }
 
     function logger(message){
