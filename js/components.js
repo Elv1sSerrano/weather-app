@@ -22,7 +22,7 @@ export function createTabPanel(id){
 
 function weatherContainerTemplate({dt, temp, icon, description}){
     return `
-    <li class="dayWeather-item is-selected">
+    <li class="dayWeather-item">
         <span class="dayWeather-time">${dt}</span>
         <img class="dayWeather-icon" src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="${description}" rain="">
         <span class="dayWeather-temp">${temp}°</span>

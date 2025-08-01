@@ -11,9 +11,21 @@ function setWeeklyClimateInfo(weeklyDataArray){
         $element.append($panel) 
         dayDataArray.forEach((content) => {
             const $container = createWeatherContainer(configWeeklydata(content))
-            $panel.querySelector('.dayWeather-list').append($container)
+            $panel.querySelector('.dayWeather-list').append($container)                        
         })        
-    });    
+    })
+    const $list = document.querySelector('.dayWeather-list')
+    const $item = $list.querySelectorAll('.dayWeather-item')    
+    $item.forEach(($element, index) => {    
+        if(index === 0) $element.classList.add('is-selected')                    
+        $element.addEventListener('click', () => {   
+            console.log(`el item es ${$item}`)
+            console.log(`la lista es ${$list}`)
+            const $previosElement = $list.querySelector('.is-selected')           
+            if($previosElement) $previosElement.classList.remove('is-selected')
+            $element.classList.add('is-selected')            
+        })
+    })     
 }
 
 function configWeeklydata(content) {
@@ -28,6 +40,10 @@ function configWeeklydata(content) {
     
     return {dt, temp, icon, description}    
 } 
+
+function setIndividualWeeklyInfo(event){
+    
+}
 
 export default async function weeklyWeather() {
     const $wholeAppContainer = document.querySelector('.weeklyWeather')
