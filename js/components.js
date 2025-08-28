@@ -34,3 +34,19 @@ export function createWeatherContainer(apiInfo){
     const $container = htmlParser(weatherContainerTemplate(apiInfo))
     return $container
 }
+
+function additionalInfoTemplate({maxTemp, minTemp, windSpeed, humidity}){
+    return `
+    <div class="additionalInfo">
+        <p>Máx: ${maxTemp}°</p>
+        <p>Min: ${minTemp}°</p>
+        <p>Viento: ${windSpeed}Km-h</p>
+        <p>Humedad: ${humidity}%</p>
+    </div>
+    `
+}
+
+export function createAdditionalInfoTemplate(apiInfo){
+    const $additionalContainer = htmlParser(additionalInfoTemplate(apiInfo))
+    return $additionalContainer
+}
