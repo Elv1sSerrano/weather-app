@@ -16,7 +16,7 @@ function configWeeklydata(content) {
 
     const maxTemp = content.main.temp_max
     const minTemp = content.main.temp_min
-    const windSpeed = content.wind.speed * 3.6
+    const windSpeed = (content.wind.speed * 3.6).toFixed(3)
     const humidity = content.main.humidity
 
     const weeklyWeatherData = {
@@ -48,32 +48,45 @@ function setWeeklyClimateInfo(weeklyDataArray){
 } 
 
 function setIndividualInfo(weeklyDataArray){       
-    const $tabs = document.querySelectorAll('.tab')     
-    const $list = document.querySelector('.dayWeather-list')
-    const $items = $list.querySelectorAll('.dayWeather-item')
+    const $tabs = document.querySelectorAll('.tab')             
+
+
+    function updateInfo(tabIndex, itemIndex){           
+
+        const $list = document.getElementById(`dayWeather-list-${tabIndex}`)
+        const $items = $list.querySelectorAll('.dayWeather-item')
+
+        const $previosElement = $list.querySelector('.is-selected')           
+        if($previosElement) $previosElement.classList.remove('is-selected')        
+        $items[itemIndex].classList.add('is-selected')
+
+        //agregar información de: temperatura máxima, temperatura mínima, viento y humedad.
+        const individualData = weeklyDataArray[tabIndex][itemIndex]             
+        const $panels = document.querySelectorAll('.tabPanel')
+        const $panel = [...$panels].find($panel => $panel.getAttribute('aria-labelledby')===`tab-${tabIndex}`)
+        const $additionalContainer = createAdditionalInfoTemplate(configWeeklydata(individualData))            
+        const previousAdditionalContainer = $panel.querySelector('.additionalInfo')
+        if(previousAdditionalContainer) previousAdditionalContainer.remove()            
+        $panel.append($additionalContainer)                    
+    }    
+
     $tabs.forEach(($tab, tabIndex) => { 
+        const $list = document.getElementById(`dayWeather-list-${tabIndex}`)
+        const $items = $list.querySelectorAll('.dayWeather-item')
+
         $items.forEach(($item, itemIndex) => {                    
-            if(itemIndex === 0) $item.classList.add('is-selected')                            
-            $tab.addEventListener('click', () => {                
-                $item.addEventListener('click', () => {               
-                    console.log(`El Item es ${itemIndex}`)
-                    const $previosElement = $list.querySelector('.is-selected')           
-                    if($previosElement) $previosElement.classList.remove('is-selected')
-                    $item.classList.add('is-selected')
-                    //agregar información de: temperatura máxima, temperatura mínima, viento y humedad.
-                    const individualData = weeklyDataArray[tabIndex][itemIndex]     
-                    console.log(tabIndex, itemIndex)
-                    const $panel = document.querySelector('.tabPanel')            
-                    const $additionalContainer = createAdditionalInfoTemplate(configWeeklydata(individualData))            
-                    const previousAdditionalContainer = $panel.querySelector('.additionalInfo')
-                    if(previousAdditionalContainer) previousAdditionalContainer.remove()            
-                    $panel.append($additionalContainer)                    
-                })
-            })                         
+            $item.addEventListener('click', () => {               
+                const tabSelected = [...$tabs].findIndex($tab => $tab.getAttribute('aria-selected')=== 'true')                
+                updateInfo(tabSelected, itemIndex)
+            })
         })
-        
+
+        $tab.addEventListener('click', () => {                         
+            updateInfo(tabIndex, 0)
+        })                                 
     })
-    
+
+    updateInfo(0, 0)    
 }
 
 export default async function weeklyWeather() {
